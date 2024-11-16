@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактировать задачу</title>
+</head>
+<body>
+<h1>Редактировать задачу</h1>
+
+<!-- Форма для редактирования задачи -->
+<form action="/tasks/update/{id}" method="post" th:action="@{/tasks/update/{id}(id=${task.id})}" th:object="${task}">
+    <!-- ID задачи (невидимое поле для передачи ID) -->
+    <input type="hidden" th:field="*{id}" />
+
+    <label for="title">Название:</label>
+    <input type="text" id="title" name="title" th:field="*{title}" required />
+    <br>
+
+    <label for="description">Описание:</label>
+    <textarea id="description" name="description" th:field="*{description}" required></textarea>
+    <br>
+
+    <label for="status">Статус:</label>
+    <select id="status" name="status" th:field="*{status}">
+        <option th:each="status : ${T(net.ork.testtodomanagerbyspring.model.TaskStatus).values()}"
+                th:value="${status}" th:text="${status}"></option>
+    </select>
+    <br>
+
+    <button type="submit">Сохранить изменения</button>
+</form>
+
+<!-- Кнопка для возврата к списку задач -->
+<form action="/tasks" method="get">
+    <button type="submit">Назад к списку задач</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список задач</title>
+    <script>
+        // Функция для подтверждения удаления задачи
+        function confirmDelete(event) {
+            if (!confirm("Вы уверены, что хотите удалить эту задачу?")) {
+                // Отменяет отправку формы, если пользователь отменяет удаление
+                event.preventDefault();
+            }
+        }
+    </script>
+    <style>
+        /* Стили для выравнивания кнопок по горизонтали */
+        .action-buttons {
+            display: flex;
+            gap: 10px; /* Отступ между кнопками */
+        }
+    </style>
+</head>
+<body>
+<h1>Список задач</h1>
+
+<!-- Форма для создания задачи -->
+<form action="/tasks/create" method="get">
+    <button type="submit">Создать задачу</button>
+</form>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Описание</th>
+        <th>Статус</th>
+        <th>Действия</th>
+    </tr>
+    <tr th:each="task : ${tasks}">
+        <td th:text="${task.id}"></td>
+        <td th:text="${task.title}"></td>
+        <td th:text="${task.description}"></td>
+        <td th:text="${task.status}"></td>
+        <td>
+            <!-- Блок с кнопками для редактирования и удаления -->
+            <div class="action-buttons">
+                <!-- Кнопка редактирования задачи -->
+                <form action="/tasks/edit/{id}" method="get" th:action="@{/tasks/edit/{id}(id=${task.id})}">
+                    <button type="submit">Редактировать</button>
+                </form>
+
+                <!-- Форма для удаления задачи с подтверждением -->
+                <form action="/tasks/delete/{id}" method="post" th:action="@{/tasks/delete/{id}(id=${task.id})}" onsubmit="confirmDelete(event)">
+                    <button type="submit">Удалить</button>
+                </form>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Создать задачу</title>
+</head>
+<body>
+<h1>Создать задачу</h1>
+<form action="/tasks" method="post" th:object="${task}">
+  <label for="title">Название:</label>
+  <input type="text" id="title" name="title" th:field="*{title}" required>
+  <br>
+  <label for="description">Описание:</label>
+  <textarea id="description" name="description" th:field="*{description}"></textarea>
+  <br>
+  <label for="status">Статус:</label>
+  <select id="status" name="status" th:field="*{status}">
+    <option th:each="status : ${T(net.ork.testtodomanagerbyspring.model.TaskStatus).values()}"
+            th:value="${status}" th:text="${status}"></option>
+  </select>
+  <br>
+  <button type="submit">Сохранить</button>
+</form>
+</body>
+</html>
